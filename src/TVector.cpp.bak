@@ -1,0 +1,171 @@
+#include "TVector.h"
+
+void TVector::SetVectorDim(int nDimVector2D) {
+  fNVectorDim = nDimVector2D;
+  fKVectorDim = 0;
+}
+
+void TVector::SetVectorDim(int nDimVector3D, int kDimVector3D) {
+  fNVectorDim = nDimVector3D;
+  fKVectorDim = kDimVector3D;
+}
+// double TVector::operator()(int mIndex, int nIndex) {
+//   return (*this)[mIndex + nIndex * fNVectorDim];
+// }
+double TVector::operator()(int mIndex, int nIndex, int kIndex) {
+  return (*this)[mIndex + fNVectorDim * (nIndex + fKVectorDim * kIndex)];
+}
+
+// TVector TVector::operator()(int mIndex, int nIndex) {
+//   numCol = this->fNVectorDim;
+//   numRow = this->size() / numCol;
+//   if (mIndex == -1) {
+//     TVector colVector;
+//     colVector.resize(numCol);
+//   }
+// }
+
+void TVector::VecGenFrom(int numMax, double numStart, double numStep) {
+  this->resize(numMax);
+  double iNumMax = numStart;
+  for (auto iIter = this->begin(); iIter < this->end(); ++iIter) {
+    *iIter = iNumMax;
+    iNumMax += numStep;
+  }
+}
+
+TVector TVector::operator+(TVector &oB) {
+  int sizeThis = this->size();
+  TVector oC;
+  oC.resize(sizeThis);
+  int i2Iter = 0;
+  for (auto iIter = this->begin(); iIter < this->end(); ++iIter) {
+    oC[i2Iter] = *iIter + oB[i2Iter];
+    i2Iter += 1;
+  }
+  return oC;
+}
+TVector TVector::operator-(TVector &oB) {
+  int sizeThis = this->size();
+  TVector oC;
+  oC.resize(sizeThis);
+  int i2Iter = 0;
+  for (auto iIter = this->begin(); iIter < this->end(); ++iIter) {
+    oC[i2Iter] = *iIter - oB[i2Iter];
+    i2Iter += 1;
+  }
+  return oC;
+}
+
+TVector TVector::operator*(TVector &oB) {
+  int sizeThis = this->size();
+  TVector oC;
+  oC.resize(sizeThis);
+  int i2Iter = 0;
+  for (auto iIter = this->begin(); iIter < this->end(); ++iIter) {
+    oC[i2Iter] = *iIter * oB[i2Iter];
+    i2Iter += 1;
+  }
+  return oC;
+}
+
+TVector TVector::operator/(TVector &oB) {
+  int sizeThis = this->size();
+  TVector oC;
+  oC.resize(sizeThis);
+  int i2Iter = 0;
+  for (auto iIter = this->begin(); iIter < this->end(); ++iIter) {
+    oC[i2Iter] = *iIter / oB[i2Iter];
+    i2Iter += 1;
+  }
+  return oC;
+}
+
+TVector TVector::operator+(double oBdbl) {
+  int sizeThis = this->size();
+  TVector oC;
+  oC.resize(sizeThis);
+  int i2Iter = 0;
+  for (auto iIter = this->begin(); iIter < this->end(); ++iIter) {
+    oC[i2Iter] = *iIter + oBdbl;
+    i2Iter += 1;
+  }
+  return oC;
+}
+
+TVector TVector::operator-(double oBdbl) {
+  int sizeThis = this->size();
+  TVector oC;
+  oC.resize(sizeThis);
+  int i2Iter = 0;
+  for (auto iIter = this->begin(); iIter < this->end(); ++iIter) {
+    oC[i2Iter] = *iIter - oBdbl;
+    i2Iter += 1;
+  }
+  return oC;
+}
+
+TVector TVector::operator*(double oBdbl) {
+  int sizeThis = this->size();
+  TVector oC;
+  oC.resize(sizeThis);
+  int i2Iter = 0;
+  for (auto iIter = this->begin(); iIter < this->end(); ++iIter) {
+    oC[i2Iter] = *iIter * oBdbl;
+    i2Iter += 1;
+  }
+  return oC;
+}
+
+TVector TVector::operator/(double oBdbl) {
+  int sizeThis = this->size();
+  TVector oC;
+  oC.resize(sizeThis);
+  int i2Iter = 0;
+  for (auto iIter = this->begin(); iIter < this->end(); ++iIter) {
+    oC[i2Iter] = *iIter / oBdbl;
+    i2Iter += 1;
+  }
+  return oC;
+}
+
+TVector TVector::operator|(double oBdbl) {
+  int sizeThis = this->size();
+  TVector oC;
+  oC.resize(sizeThis);
+  int i2Iter = 0;
+  for (auto iIter = this->begin(); iIter < this->end(); ++iIter) {
+    oC[i2Iter] = oBdbl - *iIter;
+    i2Iter += 1;
+  }
+  return oC;
+}
+
+TVector TVector::operator||(double oBdbl) {
+  int sizeThis = this->size();
+  TVector oC;
+  oC.resize(sizeThis);
+  int i2Iter = 0;
+  for (auto iIter = this->begin(); iIter < this->end(); ++iIter) {
+    oC[i2Iter] = oBdbl / *iIter;
+    i2Iter += 1;
+  }
+  return oC;
+}
+
+TVector TVector::operator^(double oBdbl) {
+  int sizeThis = this->size();
+  TVector oC;
+  oC.resize(sizeThis);
+  int i2Iter = 0;
+  for (auto iIter = this->begin(); iIter < this->end(); ++iIter) {
+    oC[i2Iter] = pow(*iIter, oBdbl);
+    i2Iter += 1;
+  }
+  return oC;
+}
+
+double TVector::Max() { return *max_element(this->begin(), this->end()); }
+double TVector::Min() { return *min_element(this->begin(), this->end()); }
+
+// TVector operator=(TVector &oAVector) { return oAVector; }

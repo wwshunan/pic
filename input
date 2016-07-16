@@ -1,0 +1,187 @@
+#A test input file of Jiang Peiyong
+#2016年06月01日
+############################
+
+[BEAM]
+beam_1=proton               # 两种束流
+mass=938.27              # MeV
+charge=1                     # 电荷态
+current=0.01              # mA
+energy=2                    # MeV
+
+frequency_1=162.5                 # MHz
+source_1=in           # ex
+external_1=/home/shine/ostar/o/part1.dis     #读取外部粒子分布，如果粒子分布是external，则必须具有该参数
+
+#distribution_1=GS6D
+#distribution_1=WB6D
+
+# 3D
+distribution_1=UN3D
+
+# R
+#distribution_1=KV4D
+#distribution_1=GS4D
+#distribution_1=WB4D
+
+#distribution_1=KV2D
+#distribution_1=GS2D
+
+# Z
+#longitudinal_1=KV
+#longitudinal_1=GS
+
+numpart_1=1e4;
+
+xepsilon_1=0.1
+xbeta_1=40
+xalpha_1=0
+yepsilon_1=0.1
+ybeta_1=40
+yalpha_1=0
+zepsilon_1=0.1
+zbeta_1=40
+zalpha_1=0
+
+################################
+#beam_2=H2+                 # 两种束流
+mass_2=1800               # MeV
+charge_2=1                      # 电荷态
+current_2=0.003              # mA
+energy_2=2.1                    # MeV
+
+frequency_2=162.5                 # MHz
+source_2=internal           # external
+external_2=/home/shine/ostar/o/part2.dis     #读取外部粒子分布，如果粒子分布是external，则必须具有该参数
+
+distribution_2=WB6D
+
+numpart_2=1e5;
+
+xepsilon_2=10
+xbeta_2=5
+xalpha_2=0
+yepsilon_2=0.35
+ybeta_2=2
+yalpha_2=0.2
+zepsilon_2=0.35
+zbeta_2=2
+zalpha_2=0.2
+
+
+
+[CONFIG]
+xnumsc=6
+ynumsc=6
+znumsc=10
+
+
+
+[OPTI]
+job1:
+zstart=0
+z=5
+
+job2:
+
+job3:
+Method=pso
+Dimension=2
+W=0.5
+C1=2
+C2=2
+Variable_1=MEBT.1_QUAD2(L)
+Variable_2=MEBT.1_QUAD1(K)
+Object=a
+
+[OUTPUT]
+twiss=all
+twiss=LATTICE_QUAD()
+twiss=SR.1_TestPeriod(all)
+twiss=MEBT.1_QUAD2(0.5)
+emittance=MEBT.1_QUAD2(A15)
+
+
+
+
+ [LATTICE]
+
+DRIFT
+ 160 25 0
+QUAD
+ 70 160 0 24 0.731652 0 0 0 quad1
+PERIOD:MEBT*2
+	DRIFT
+	 160 25 0
+	QUAD
+	 70 160 0 24 0.731652 0 0 0 quad1
+	DRIFT
+	 1e-008 25 0
+	QUAD
+	 70 200 0 24 1.03247 0 0 0 quad2
+	DRIFT
+	 1e-008 25 0
+	QUAD
+	 70 160 0 24 1.28733 0 0 0 quad3
+	DRIFT
+	 13 25 0
+
+	BUNCHER
+	 7700 200 -90 20 0.142453 0.142453 0 0 buncher1
+	QUAD
+	 70 160 0 20 -1.03194 0 0 0 quad5
+	DRIFT
+	 1e-008 25 0
+	QUAD
+	 70 180 0 20 -0.843456 0 0 0 quad6
+	DRIFT
+	 1e-008 25 0
+	QUAD
+	 70 160 0 20 -0.607318 0 0 0 quad7
+BEAMDIAG:Twiss,Beta
+END:MEBT
+
+DRIFT
+ 160 25 0
+QUAD
+ 70 160 0 24 0.731652 0 0 0 quad1
+
+PERIOD:SR*2
+	PERIOD:TestPeriod*2
+		PERIOD:CELL1*2
+			DRIFT
+			 85 20 0
+			SOL
+			 0070 350 0 20 0.696492 1.0 0 0 sol
+			CAVITY:Cavity1
+			 7700 210  -45 20 1.2 1.2 0 0 hwr010
+		END:CELL1
+
+		PERIOD:CELL2*2
+			DRIFT
+			 85 20 0
+			SOL
+			 0070 350 0 20 0.716112 1.0 0 0 sol
+			CAVITY:C1
+			 7700 210  -43 20 1.3 1.3 0 0 hwr010
+       DRIFT
+        85 20 0
+       SOL
+        0070 350 0 20 0.716112 1.0 0 0 sol
+       CAVITY
+        7700 210  -43 20 1.3 1.3 0 0 hwr010
+		END:CELL2
+
+		PERIOD:CELL3*2
+			DRIFT
+			 85 20 0
+			SOL
+			 0070 350 0 20 0.730687 1.0 0 0 sol
+			CAVITY
+			 7700 210  -40 20 1.45 1.45 0 0 hwr010
+		END:CELL3
+    USE:CELL1*2
+	END:TestPeriod
+END:SR
+
+[END]

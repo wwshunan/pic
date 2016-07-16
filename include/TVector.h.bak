@@ -1,0 +1,50 @@
+#ifndef TVECTOR_H
+#define TVECTOR_H
+
+#include "T0.h"
+
+class TVector : public std::vector<double>, public T0 {
+public:
+  void SetVectorDim(int nDimVector2D);
+  void SetVectorDim(int nDimVector3D, int kDimVector3D);
+
+  void VecGenFrom(int numMax = 10, double numStart = 0, double numStep = 1);
+
+  TVector operator+(TVector &);
+  TVector operator+(double);
+  TVector operator-(TVector &);
+  TVector operator-(double);
+  TVector operator|(double); // substracted
+
+  TVector operator*(TVector &);
+  TVector operator*(double);
+  TVector operator/(TVector &);
+  TVector operator/(double);
+  TVector operator||(double); // devided
+
+  // TVector operator=(TVector &);
+
+  TVector operator^(double);
+
+  double Max();
+  double Min();
+
+  template <typename T> T operator()(int mIndex = -1, int nIndex = -1) {
+    if ((mIndex == -1) & (nIndex == -1)) {
+      return *this；
+    } else if (mIndex == -1) {
+      return (*this)[mIndex + nIndex * fNVectorDim];
+    } else if (nIndex = -1) {
+      return (*this)[mIndex + nIndex * fNVectorDim];
+    } else
+      return (*this)[mIndex + nIndex * fNVectorDim];
+  };
+
+  double operator()(int mIndex, int nIndex, int kIndex);
+
+protected:
+  int fNVectorDim;
+  int fKVectorDim;
+};
+
+#endif // TVECTOR_H
